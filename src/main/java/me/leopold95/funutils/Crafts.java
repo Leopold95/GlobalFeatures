@@ -25,8 +25,6 @@ public class Crafts {
 		ItemStack itemDesorientation = new ItemStack(Material.ENDER_EYE);
 		ItemMeta meta = itemDesorientation.getItemMeta();
 
-		int a = 3;
-
 		NBTTagCompound tag = new NBTTagCompound();
 		tag.setBoolean("desorientation", true);
 		tag.setString("don-item", "desorientation");
