@@ -1,0 +1,4 @@
+name: FunUtils
+version: '${version}'
+main: me.leopold95.funutils.FunUtils
+api-version: '1.16'

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/FunUtils.iml" filepath="$PROJECT_DIR$/.idea/modules/FunUtils.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/FunUtils.main.iml" filepath="$PROJECT_DIR$/.idea/modules/FunUtils.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/FunUtils.test.iml" filepath="$PROJECT_DIR$/.idea/modules/FunUtils.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/me.leopold95.FunUtils.main.iml" filepath="$PROJECT_DIR$/.idea/modules/me.leopold95.FunUtils.main.iml" />
+    </modules>
+  </component>
+</project>
