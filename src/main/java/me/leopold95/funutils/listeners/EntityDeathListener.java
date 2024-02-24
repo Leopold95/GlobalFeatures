@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.Utility;
 import org.bukkit.entity.Chicken;
 import org.bukkit.entity.Enderman;
+import org.bukkit.entity.Spider;
 import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,6 +13,7 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -91,13 +93,14 @@ public class EntityDeathListener implements Listener {
 		}
 
 		//фикс лута с паука
-		if(event.getEntity() instanceof Zombie){
-			//список лута без морковки
+		if(event.getEntity() instanceof Spider){
+			//список лута без,,,,
 			List<ItemStack> updatedDrops = new ArrayList<>();
+			List<Material> blockDrops = Arrays.asList(Material.STRING, Material.SPIDER_EYE, Material.FERMENTED_SPIDER_EYE);
 
 			//добавить в дроп все, что не....
 			for(ItemStack item : event.getDrops()){
-				if(item.getType() != Material.STRING || item.getType() != Material.SPIDER_EYE || item.getType() != Material.FERMENTED_SPIDER_EYE)
+				if(!blockDrops.contains(item.getType()))
 					updatedDrops.add(item);
 			}
 
@@ -107,7 +110,7 @@ public class EntityDeathListener implements Listener {
 			Random rand = new Random();
 
 			//100% 1-2 нити
-			updatedDrops.add(new ItemStack(Material.STRING, rand.nextInt(3 - 1) + 1)); //от [1 до 2]
+			updatedDrops.add(new ItemStack(Material.STRING, rand.nextInt(2) + 1)); //от [1 до 2]
 
 			//50% 1 паучий глаз
 			if(Utils.doWithChance(50))

@@ -63,15 +63,15 @@ public class Crafts {
 		ItemStack result = new ItemStack(Material.NETHERITE_SCRAP);
 
 		NBTTagCompound tag = new NBTTagCompound();
-		tag.setBoolean("christmastrap", true);
-		tag.setString("don-item", "christmastrap");
+		tag.setBoolean("trap", true);
+		tag.setString("don-item", "trap");
 		result = Utils.setTag(result, tag);
 
 		ItemMeta meta = result.getItemMeta();
 		meta.setDisplayName("§c§l[★] Трапка");
 		result.setItemMeta(meta);
 
-		ShapedRecipe recipe = new ShapedRecipe(new NamespacedKey(plugin, "christmastrap-custom-recipe"), result);
+		ShapedRecipe recipe = new ShapedRecipe(new NamespacedKey(plugin, "trap-custom-recipe"), result);
 		recipe.shape(
 				" A ",
 				"ABA",
