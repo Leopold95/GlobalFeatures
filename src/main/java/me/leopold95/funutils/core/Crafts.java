@@ -18,7 +18,7 @@ public class Crafts {
 	}
 
 
-	public void initShapedCrafts(){
+	public void initShapedRecipes(){
 		//addDesorientationCraft(plugin);
 		//addChristmastrapCraft(plugin);;
 		//addSheerdustCraft(plugin);
@@ -249,15 +249,15 @@ public class Crafts {
 //		plugin.getServer().addRecipe(recipeExpBottle);
 //	}
 
-	private static void addBlazerodCraft(FunUtils plugin){
-		ShapedRecipe recipeBlazeRod = new ShapedRecipe(new NamespacedKey(plugin, "blaze-rod-custom-recipe"),
-				new ItemStack(Material.BLAZE_ROD));
-		recipeBlazeRod.shape(
-				"   ",
-				" D ",
-				" D ");
-
-		recipeBlazeRod.setIngredient('D', Material.GOLD_INGOT);
-		plugin.getServer().addRecipe(recipeBlazeRod);
-	}
+//	private static void addBlazerodCraft(FunUtils plugin){
+//		ShapedRecipe recipeBlazeRod = new ShapedRecipe(new NamespacedKey(plugin, "blaze-rod-custom-recipe"),
+//				new ItemStack(Material.BLAZE_ROD));
+//		recipeBlazeRod.shape(
+//				"   ",
+//				" D ",
+//				" D ");
+//
+//		recipeBlazeRod.setIngredient('D', Material.GOLD_INGOT);
+//		plugin.getServer().addRecipe(recipeBlazeRod);
+//	}
 }

@@ -7,23 +7,19 @@ import me.leopold95.funutils.listeners.EntityDeathListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class FunUtils extends JavaPlugin {
-
-    private Crafts crafts;
+    private Crafts crafts; //менеджер крафтов
 
     @Override
     public void onEnable() {
-        // Plugin startup logic
         getServer().getPluginManager().registerEvents(new BlockPlaceListener(), this);
         getServer().getPluginManager().registerEvents(new EntityDeathListener(), this);
         getServer().getPluginManager().registerEvents(new BlockBreakListener(), this);
-        //Crafts.addShapedCrafts(this);
 
         crafts = new Crafts(this);
-        crafts.initShapedCrafts();
+        crafts.initShapedRecipes();
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
     }
 }
