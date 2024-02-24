@@ -18,8 +18,8 @@ public class BlockBreakListener implements Listener {
 			if(event.getPlayer() == null)
 				return;
 
-			//прок шанса 40% -- ДА / НЕТ
-			if (!Utils.doWithChance(40))
+			//прок шанса 20% -- ДА / НЕТ
+			if (!Utils.doWithChance(20))
 				return;
 
 			event.setDropItems(false);
