@@ -10,6 +10,8 @@ import org.bukkit.inventory.ItemStack;
 public class BlockPlaceListener implements Listener {
 	@EventHandler
 	private void onBlockPlace(BlockPlaceEvent event){
+
+		//нарост сразу в стойке для зелений
 		if (event.getBlockPlaced().getType() != Material.BREWING_STAND)
 			return;
 

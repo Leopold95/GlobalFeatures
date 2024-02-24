@@ -1,4 +1,4 @@
-package me.leopold95.funutils;
+package me.leopold95.funutils.utils;
 
 
 import net.minecraft.server.v1_16_R3.NBTTagCompound;

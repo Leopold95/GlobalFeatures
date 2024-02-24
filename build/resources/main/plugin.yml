@@ -2,3 +2,5 @@ name: FunUtils
 version: '1.0'
 main: me.leopold95.funutils.FunUtils
 api-version: '1.16'
+authors:
+  - Leopold95
