@@ -1,0 +1,11 @@
+gold_ore:
+  chance: 60
+  amount: 2~5
+  height: 30~60
+  enabled: true
+
+diamond_ore:
+  chance: 20
+  amount: 4~8
+  height: 3~16
+  enabled: true
