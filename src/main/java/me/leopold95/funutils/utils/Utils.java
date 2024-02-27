@@ -14,6 +14,10 @@ public class Utils {
 		return false;
 	}
 
+	public static int randomInt(int borderOne, int borderTwo) {
+		return (int) Math.floor(Math.random() * (borderTwo - borderOne)) + borderOne;
+	}
+
 	public static net.minecraft.server.v1_16_R3.ItemStack cast(ItemStack item) {
 		return CraftItemStack.asNMSCopy(item);
 	}
