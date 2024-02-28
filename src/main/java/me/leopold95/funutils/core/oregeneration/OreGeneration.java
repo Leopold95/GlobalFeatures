@@ -59,8 +59,10 @@ public class OreGeneration {
 				for (int y = -radius; y <= radius; y++) {
 					for (int z = -radius; z <= radius; z++) {
 
-						if (replaced == replaceAmount)
+						if (replaced == replaceAmount){
 							break;
+						}
+
 
 						Block targetBlock = clickLocation.clone().add(x, y, z).getBlock();
 						targetBlock.setType(replaceMaterial);
@@ -76,7 +78,7 @@ public class OreGeneration {
 		}
 	}
 
-	private void spawnVien(Location startBlock, Chunk chunk, int blocksIntoVien){
+	private void spawnVien(Vector3 startBlock, Chunk chunk, int blocksIntoVien){
 
 	}
 

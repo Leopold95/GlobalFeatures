@@ -4,7 +4,7 @@ import me.leopold95.funutils.core.Crafts;
 import me.leopold95.funutils.core.oregeneration.OreGeneration;
 import me.leopold95.funutils.listeners.BlockBreakListener;
 import me.leopold95.funutils.listeners.BlockPlaceListener;
-import me.leopold95.funutils.listeners.ChunkGeneratedEvent;
+import me.leopold95.funutils.listeners.ChunkGeneratedListener;
 import me.leopold95.funutils.listeners.EntityDeathListener;
 import me.leopold95.funutils.utils.Config;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -21,7 +21,7 @@ public final class FunUtils extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BlockPlaceListener(), this);
         getServer().getPluginManager().registerEvents(new EntityDeathListener(), this);
         getServer().getPluginManager().registerEvents(new BlockBreakListener(), this);
-        getServer().getPluginManager().registerEvents(new ChunkGeneratedEvent(), this);
+        getServer().getPluginManager().registerEvents(new ChunkGeneratedListener(), this);
 
         Config.register();
 
