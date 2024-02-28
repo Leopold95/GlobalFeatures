@@ -25,7 +25,7 @@ dependencies {
     implementation files('libs/craftbukkit-1.16.5.jar')
 }
 
-def targetJavaVersion = 8
+def targetJavaVersion = 17
 java {
     def javaVersion = JavaVersion.toVersion(targetJavaVersion)
     sourceCompatibility = javaVersion

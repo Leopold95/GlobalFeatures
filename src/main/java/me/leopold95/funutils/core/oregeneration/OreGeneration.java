@@ -5,9 +5,7 @@ import me.leopold95.funutils.utils.Utils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 //Алгоритм
 //в каком-то чанке выбрать первую рандомную точку с шаном
@@ -22,14 +20,20 @@ public class OreGeneration {
 	private FunUtils plugin;
 	private OreGenerationDatum datum;
 	private Material replaceMaterial = Material.STONE;
+	private List<Material> canBeReplaced;
+	private List<Vector3> blockRelatives;
 
 
 	public OreGeneration(FunUtils plugin) {
 		this.plugin = plugin;
 		datum = new OreGenerationDatum();
+		canBeReplaced = Arrays.asList(Material.STONE, Material.AIR, Material.WATER);
+		blockRelatives = getBlockRelativeSteps();
 	}
 
 	public void tryGenerateViens(Chunk chunk){
+		//TODO сделать генерацию тольоко для верхнего мира
+
 		if(datum.GOLD_ORE_ENABLED){
 			//сразу проверяем удачу, будем ли генерировать жилу в єтом чанке
 			if(!Utils.doWithChance(datum.GOLD_ORE_CHANCE))
@@ -54,23 +58,32 @@ public class OreGeneration {
 			int radius = 1; // Example max radius
 			Material replaceMaterial = Material.GOLD_BLOCK; // Example replacement block
 
-			// Loop through nearby blocks
-			for (int x = -radius; x <= radius; x++) {
-				for (int y = -radius; y <= radius; y++) {
-					for (int z = -radius; z <= radius; z++) {
 
-						if (replaced == replaceAmount){
-							break;
-						}
+			for (Vector3 relative: blockRelatives){
+				if(replaced == replaceAmount)
+					break;
 
-
-						Block targetBlock = clickLocation.clone().add(x, y, z).getBlock();
-						targetBlock.setType(replaceMaterial);
-
-						replaced++;
-					}
-				}
+				startBlock.getRelative(relative.x, relative.y, relative.z).setType(replaceMaterial);
+				replaced++;
 			}
+
+
+			// Loop through nearby blocks
+//			for (int x = -radius; x <= radius; x++) {
+//				for (int y = -radius; y <= radius; y++) {
+//					for (int z = -radius; z <= radius; z++) {
+//
+//						if (replaced == replaceAmount){
+//							break;
+//						}
+//
+//						Block targetBlock = clickLocation.clone().add(x, y, z).getBlock();
+//						targetBlock.setType(replaceMaterial);
+//
+//						replaced++;
+//					}
+//				}
+//			}
 		}
 
 		if(datum.DIAMOND_ORE_ENABLED){
@@ -78,8 +91,38 @@ public class OreGeneration {
 		}
 	}
 
-	private void spawnVien(Vector3 startBlock, Chunk chunk, int blocksIntoVien){
+	private void spawnVien(Vector3 startBlock, Chunk chunk, int blocksIntoVien, Material material){
 
+	}
+
+	private LinkedList<Vector3> getBlockRelativeSteps(){
+		LinkedList<Vector3> relatives = new LinkedList<>();
+
+		//изначлаьная точка
+		relatives.add(new Vector3(0, 0, 0));
+
+		//список ближайших к блоку границ по горизонтали (4 макс)
+		relatives.add(new Vector3(1, 0, 0));
+		relatives.add(new Vector3(-1, 0, 0));
+		relatives.add(new Vector3(0, 0, 1));
+		relatives.add(new Vector3(0, 0, -1));
+
+		//список ближайших к блоку границ по вертикали (2 макс)
+		relatives.add(new Vector3(0, 1, 0));
+		relatives.add(new Vector3(0, -1, 0));
+
+		//список ближайших к блоку границ по углам (8 макс, 4 вверху блока 4 низу блока)
+		relatives.add(new Vector3(1, 1, 1));
+		relatives.add(new Vector3(1, 1, -1));
+		relatives.add(new Vector3(-1, 1, 1));
+		relatives.add(new Vector3(-1, 1, -1));
+
+		relatives.add(new Vector3(1, -1, 1));
+		relatives.add(new Vector3(1, -1, -1));
+		relatives.add(new Vector3(-1, -1, 1));
+		relatives.add(new Vector3(-1, -1, -1));
+
+		return relatives;
 	}
 
 	public void generateBlock(){
