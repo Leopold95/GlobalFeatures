@@ -28,6 +28,7 @@ public class OreGeneration {
 		this.plugin = plugin;
 		datum = new OreGenerationDatum();
 		canBeReplaced = Arrays.asList(Material.STONE, Material.AIR, Material.WATER);
+		//прегенерируем список ближайших блоков, чтобы избежать ненужных тысяч аллокаций памяти
 		blockRelatives = getBlockRelativeSteps();
 	}
 
@@ -54,10 +55,7 @@ public class OreGeneration {
 			//System.out.println(startBlock + " " + replaceAmount);
 
 			//спавн жилы с ресурсом
-			Location clickLocation = startBlock.getLocation();
-			int radius = 1; // Example max radius
-			Material replaceMaterial = Material.GOLD_BLOCK; // Example replacement block
-
+			Material replaceMaterial = Material.GOLD_BLOCK;
 
 			for (Vector3 relative: blockRelatives){
 				if(replaced == replaceAmount)
