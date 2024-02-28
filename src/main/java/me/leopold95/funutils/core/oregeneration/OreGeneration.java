@@ -21,7 +21,7 @@ public class OreGeneration {
 	private OreGenerationDatum datum;
 	private Material replaceMaterial = Material.STONE;
 	private List<Material> canBeReplaced;
-	private List<Vector3> blockRelatives;
+	private LinkedList<Vector3> blockRelatives;
 
 
 	public OreGeneration(FunUtils plugin) {
@@ -96,33 +96,33 @@ public class OreGeneration {
 	}
 
 	private LinkedList<Vector3> getBlockRelativeSteps(){
-		LinkedList<Vector3> relatives = new LinkedList<>();
+		blockRelatives = new LinkedList<>();
 
 		//изначлаьная точка
-		relatives.add(new Vector3(0, 0, 0));
+		blockRelatives.add(new Vector3(0, 0, 0));
 
 		//список ближайших к блоку границ по горизонтали (4 макс)
-		relatives.add(new Vector3(1, 0, 0));
-		relatives.add(new Vector3(-1, 0, 0));
-		relatives.add(new Vector3(0, 0, 1));
-		relatives.add(new Vector3(0, 0, -1));
+		blockRelatives.add(new Vector3(1, 0, 0));
+		blockRelatives.add(new Vector3(-1, 0, 0));
+		blockRelatives.add(new Vector3(0, 0, 1));
+		blockRelatives.add(new Vector3(0, 0, -1));
 
 		//список ближайших к блоку границ по вертикали (2 макс)
-		relatives.add(new Vector3(0, 1, 0));
-		relatives.add(new Vector3(0, -1, 0));
+		blockRelatives.add(new Vector3(0, 1, 0));
+		blockRelatives.add(new Vector3(0, -1, 0));
 
 		//список ближайших к блоку границ по углам (8 макс, 4 вверху блока 4 низу блока)
-		relatives.add(new Vector3(1, 1, 1));
-		relatives.add(new Vector3(1, 1, -1));
-		relatives.add(new Vector3(-1, 1, 1));
-		relatives.add(new Vector3(-1, 1, -1));
+		blockRelatives.add(new Vector3(1, 1, 1));
+		blockRelatives.add(new Vector3(1, 1, -1));
+		blockRelatives.add(new Vector3(-1, 1, 1));
+		blockRelatives.add(new Vector3(-1, 1, -1));
 
-		relatives.add(new Vector3(1, -1, 1));
-		relatives.add(new Vector3(1, -1, -1));
-		relatives.add(new Vector3(-1, -1, 1));
-		relatives.add(new Vector3(-1, -1, -1));
+		blockRelatives.add(new Vector3(1, -1, 1));
+		blockRelatives.add(new Vector3(1, -1, -1));
+		blockRelatives.add(new Vector3(-1, -1, 1));
+		blockRelatives.add(new Vector3(-1, -1, -1));
 
-		return relatives;
+		return blockRelatives;
 	}
 
 	public void generateBlock(){
