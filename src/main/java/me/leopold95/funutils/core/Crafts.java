@@ -15,10 +15,11 @@ public class Crafts {
 
 	public Crafts(FunUtils plugin){
 		this.plugin = plugin;
+		initShapedRecipes();
 	}
 
 
-	public void initShapedRecipes(){
+	private void initShapedRecipes(){
 		plugin.getServer().addRecipe(resDisorientation()); //Дизориентация
 		plugin.getServer().addRecipe(resChristmastrap()); //Трапка
 		plugin.getServer().addRecipe(resSheerdust()); //Явная пыль

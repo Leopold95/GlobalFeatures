@@ -20,6 +20,9 @@ public class Config {
 	public static List<?> getList(String path) {
 		return config.getList(path);
 	}
+	public static List<String> getStringList(String path) {
+		return config.getStringList(path);
+	}
 
 	public static String getString(String path) {
 		return ChatColor.translateAlternateColorCodes('§', config.getString(path));

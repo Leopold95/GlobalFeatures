@@ -12,7 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class FunUtils extends JavaPlugin {
     public static FunUtils plugin;
     private static Crafts crafts; //менеджер крафтов
-    private static OreGeneration generation;
+    private static OreGeneration oresGeneration; //менеджер спавна руд
 
     @Override
     public void onEnable() {
@@ -26,13 +26,11 @@ public final class FunUtils extends JavaPlugin {
         Config.register();
 
         crafts = new Crafts(this);
-        crafts.initShapedRecipes();
-
-        generation = new OreGeneration(this);
+        oresGeneration = new OreGeneration(this);
     }
 
-    public OreGeneration getGeneration(){
-        return generation;
+    public OreGeneration getOresGeneration(){
+        return oresGeneration;
     }
 
     @Override

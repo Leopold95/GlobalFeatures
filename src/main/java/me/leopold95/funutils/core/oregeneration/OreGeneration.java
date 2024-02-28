@@ -20,20 +20,23 @@ public class OreGeneration {
 	private FunUtils plugin;
 	private OreGenerationDatum datum;
 	private Material replaceMaterial = Material.STONE;
-	private List<Material> canBeReplaced;
 	private LinkedList<Vector3> blockRelatives;
 
 
 	public OreGeneration(FunUtils plugin) {
 		this.plugin = plugin;
 		datum = new OreGenerationDatum();
-		canBeReplaced = Arrays.asList(Material.STONE, Material.AIR, Material.WATER);
 		//прегенерируем список ближайших блоков, чтобы избежать ненужных тысяч аллокаций памяти
 		blockRelatives = getBlockRelativeSteps();
 	}
 
-	public void tryGenerateViens(Chunk chunk){
-		//TODO сделать генерацию тольоко для верхнего мира
+	public void tryGenerateVien(Chunk chunk){
+//		if(chunk.getWorld().getEnvironment() != World.Environment.NORMAL)
+//			return;
+
+		//проверка на заблокированные миры
+		if(datum.BANNED_WORLDS.contains(chunk.getWorld().getName()))
+			return;
 
 		if(datum.GOLD_ORE_ENABLED){
 			//сразу проверяем удачу, будем ли генерировать жилу в єтом чанке
@@ -41,58 +44,58 @@ public class OreGeneration {
 				return;
 
 			//рандомная высота для генерации жилы
-			int startY = 80;//Utils.randomInt(datum.GOLD_ORE_HEIGHT_FROM, datum.GOLD_ORE_HEIGHT_TO);
+			int startY = Utils.randomInt(datum.GOLD_ORE_HEIGHT_FROM, datum.GOLD_ORE_HEIGHT_TO);
 			//рандомное положение жилы в чанке
-			int startX = Utils.randomInt(0, 15); // 0-15
-			int startZ = Utils.randomInt(0, 15); // 0-15
-
-			Block startBlock = chunk.getBlock(startX, startY, startZ);
+			int startX = Utils.randomInt(0, 15); // 0-15 в конкретном чанке
+			int startZ = Utils.randomInt(0, 15); // 0-15 в конкретном чанке
 
 			//количество блоков для замены
 			int replaceAmount = Utils.randomInt(datum.GOLD_ORE_AMOUNT_FROM, datum.GOLD_ORE_AMOUNT_TO + 1);
-			int replaced = 0;
 
-			//System.out.println(startBlock + " " + replaceAmount);
-
-			//спавн жилы с ресурсом
-			Material replaceMaterial = Material.GOLD_BLOCK;
-
-			for (Vector3 relative: blockRelatives){
-				if(replaced == replaceAmount)
-					break;
-
-				startBlock.getRelative(relative.x, relative.y, relative.z).setType(replaceMaterial);
-				replaced++;
-			}
-
-
-			// Loop through nearby blocks
-//			for (int x = -radius; x <= radius; x++) {
-//				for (int y = -radius; y <= radius; y++) {
-//					for (int z = -radius; z <= radius; z++) {
-//
-//						if (replaced == replaceAmount){
-//							break;
-//						}
-//
-//						Block targetBlock = clickLocation.clone().add(x, y, z).getBlock();
-//						targetBlock.setType(replaceMaterial);
-//
-//						replaced++;
-//					}
-//				}
-//			}
+			spawnVien(new Vector3(startX, startY, startZ), chunk, replaceAmount, Material.GOLD_ORE);
 		}
 
 		if(datum.DIAMOND_ORE_ENABLED){
+			//сразу проверяем удачу, будем ли генерировать жилу в єтом чанке
+			if(!Utils.doWithChance(datum.DIAMOND_ORE_CHANCE))
+				return;
 
+			//рандомная высота для генерации жилы
+			int startY = Utils.randomInt(datum.DIAMOND_ORE_HEIGHT_FROM, datum.DIAMOND_ORE_HEIGHT_TO);
+			//рандомное положение жилы в чанке
+			int startX = Utils.randomInt(0, 15); // 0-15 в конкретном чанке
+			int startZ = Utils.randomInt(0, 15); // 0-15 в конкретном чанке
+
+			//количество блоков для замены
+			int replaceAmount = Utils.randomInt(datum.DIAMOND_ORE_AMOUNT_FROM, datum.DIAMOND_ORE_AMOUNT_TO + 1);
+
+			spawnVien(new Vector3(startX, startY, startZ), chunk, replaceAmount, Material.DIAMOND_ORE);
 		}
 	}
 
-	private void spawnVien(Vector3 startBlock, Chunk chunk, int blocksIntoVien, Material material){
+	private void spawnVien(Vector3 startPos, Chunk chunk, int blocksIntoVien, Material material){
+		Block startBlock = chunk.getBlock(startPos.x, startPos.y, startPos.z);
 
+		int replaced = 0;
+
+		//спавн жилы с ресурсом
+		for (Vector3 relative: blockRelatives){
+			if(replaced == blocksIntoVien)
+				break;
+
+			if(startBlock.getRelative(relative.x, relative.y, relative.z).getType() != replaceMaterial)
+				continue;
+
+			startBlock.getRelative(relative.x, relative.y, relative.z).setType(material);
+			replaced++;
+		}
+
+		//System.out.println(startPos);
 	}
 
+	/**
+	 * Список ближайших к блоку сторон, на котрых будут создаваться руды
+	 */
 	private LinkedList<Vector3> getBlockRelativeSteps(){
 		blockRelatives = new LinkedList<>();
 

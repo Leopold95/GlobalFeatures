@@ -10,6 +10,7 @@ public class ChunkGeneratedListener implements Listener {
 	// => работаем с уже ранее сгенерированным чанком
 	@EventHandler
 	private void onChunkGenerated(ChunkPopulateEvent event){
-		FunUtils.plugin.getGeneration().tryGenerateViens(event.getChunk());
+		//пробуем создать руды в только что сгенерированном чанке
+		FunUtils.plugin.getOresGeneration().tryGenerateVien(event.getChunk());
 	}
 }

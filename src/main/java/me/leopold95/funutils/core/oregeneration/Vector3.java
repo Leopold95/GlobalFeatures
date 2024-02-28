@@ -18,4 +18,18 @@ public class Vector3 {
 	public String toString() {
 		return "Vector3 [" + x + ", "+ y +", "+ z +"]";
 	}
+
+	public Vector3 addAndCopy(int x, int y, int z){
+		return new Vector3(this.x + x, this.y + y, this.z + z);
+	}
+
+	public Vector3 addAndCopy(int value){
+		return new Vector3(this.x + value, this.y + value, this.z + value);
+	}
+
+	public void add(int x, int y, int z){
+		this.x += x;
+		this.y += y;
+		this.z += z;
+	}
 }
