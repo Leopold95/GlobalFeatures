@@ -1,9 +1,11 @@
 package me.leopold95.funutils.core.oregeneration;
 
 import me.leopold95.funutils.FunUtils;
+import me.leopold95.funutils.utils.Config;
 import me.leopold95.funutils.utils.Utils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.*;
 
@@ -18,58 +20,55 @@ import java.util.*;
  */
 public class OreGeneration {
 	private FunUtils plugin;
-	private OreGenerationDatum datum;
 	private Material replaceMaterial = Material.STONE;
 	private LinkedList<Vector3> blockRelatives;
+	private ConfigurationSection oresConfigSection;
 
 
 	public OreGeneration(FunUtils plugin) {
 		this.plugin = plugin;
-		datum = new OreGenerationDatum();
 		//прегенерируем список ближайших блоков, чтобы избежать ненужных тысяч аллокаций памяти
 		blockRelatives = getBlockRelativeSteps();
+		oresConfigSection = Config.getSection("ore-generation.ores");
 	}
 
 	public void tryGenerateVien(Chunk chunk){
-//		if(chunk.getWorld().getEnvironment() != World.Environment.NORMAL)
-//			return;
-
 		//проверка на заблокированные миры
-		if(datum.BANNED_WORLDS.contains(chunk.getWorld().getName()))
+		if(Config.getStringList("ore-generation.banned-worlds").contains(chunk.getWorld().getName()))
 			return;
 
-		if(datum.GOLD_ORE_ENABLED){
+		for (String key: oresConfigSection.getKeys(false)){
+			//натсройки с текущей рудой
+			ConfigurationSection currentCfg = Config.getSection("ore-generation.ores."+key);
+
+			//если руда выключена - скип
+			if(!currentCfg.getBoolean("enabled"))
+				continue;
+
+			int spawnChance = getValue(currentCfg, "chance");
+
+			//System.out.println(chanceFrom +" "+ chanceTo);
+
 			//сразу проверяем удачу, будем ли генерировать жилу в єтом чанке
-			if(!Utils.doWithChance(datum.GOLD_ORE_CHANCE))
+			if(!Utils.doWithChance(spawnChance))
 				return;
 
-			//рандомная высота для генерации жилы
-			int startY = Utils.randomInt(datum.GOLD_ORE_HEIGHT_FROM, datum.GOLD_ORE_HEIGHT_TO);
+			//System.out.println(spawnChance);
+
 			//рандомное положение жилы в чанке
-			int startX = Utils.randomInt(0, 15); // 0-15 в конкретном чанке
-			int startZ = Utils.randomInt(0, 15); // 0-15 в конкретном чанке
+			int startX;
+			int startZ;
+			int startY;
 
-			//количество блоков для замены
-			int replaceAmount = Utils.randomInt(datum.GOLD_ORE_AMOUNT_FROM, datum.GOLD_ORE_AMOUNT_TO + 1);
+			int howManyTimesSpawnVien = getValue(currentCfg, "cycle-random");
 
-			spawnVien(new Vector3(startX, startY, startZ), chunk, replaceAmount, Material.GOLD_ORE);
-		}
-
-		if(datum.DIAMOND_ORE_ENABLED){
-			//сразу проверяем удачу, будем ли генерировать жилу в єтом чанке
-			if(!Utils.doWithChance(datum.DIAMOND_ORE_CHANCE))
-				return;
-
-			//рандомная высота для генерации жилы
-			int startY = Utils.randomInt(datum.DIAMOND_ORE_HEIGHT_FROM, datum.DIAMOND_ORE_HEIGHT_TO);
-			//рандомное положение жилы в чанке
-			int startX = Utils.randomInt(0, 15); // 0-15 в конкретном чанке
-			int startZ = Utils.randomInt(0, 15); // 0-15 в конкретном чанке
-
-			//количество блоков для замены
-			int replaceAmount = Utils.randomInt(datum.DIAMOND_ORE_AMOUNT_FROM, datum.DIAMOND_ORE_AMOUNT_TO + 1);
-
-			spawnVien(new Vector3(startX, startY, startZ), chunk, replaceAmount, Material.DIAMOND_ORE);
+			for (int i = 1; i <= howManyTimesSpawnVien; i++){
+				startX = Utils.randomInt(0, 15); // 0-15 в конкретном чанке
+				startZ = Utils.randomInt(0, 15); // 0-15 в конкретном чанке
+				startY = getValue(currentCfg, "height");
+				int replaceAmount = getValue(currentCfg, "amount");
+				spawnVien(new Vector3(startX, startY, startZ), chunk, replaceAmount, Material.getMaterial(currentCfg.getString("material")));
+			}
 		}
 	}
 
@@ -91,6 +90,22 @@ public class OreGeneration {
 		}
 
 		//System.out.println(startPos);
+	}
+
+	private int getValue(ConfigurationSection section, String str){
+		int from;
+		int to;
+		try { //ваначле пробуем рандом, еслии ошибка - значит фиксировано
+			String[] heights = section.getString(str).split("~");
+			from = Integer.parseInt(heights[0]);
+			to = Integer.parseInt(heights[1]);
+
+			//рандомная высота для генерации жилы
+			return Utils.randomInt(from, to);
+		}
+		catch (Exception exp){
+			return section.getInt(str);
+		}
 	}
 
 	/**

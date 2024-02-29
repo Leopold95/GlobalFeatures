@@ -4,6 +4,7 @@ package me.leopold95.funutils.utils;
 import me.leopold95.funutils.FunUtils;
 import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -32,6 +33,9 @@ public class Config {
 		return Component.text(ChatColor.translateAlternateColorCodes('§', config.getString(path)));
 	}
 
+	public static ConfigurationSection getSection(String path){
+		return config.getConfigurationSection(path);
+	}
 
 
 	public static int getInt(String path) {
