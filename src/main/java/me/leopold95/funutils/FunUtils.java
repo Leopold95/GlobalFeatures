@@ -1,7 +1,6 @@
 package me.leopold95.funutils;
 
 import me.leopold95.funutils.core.Crafts;
-import me.leopold95.funutils.core.oregeneration.CustomChunkGenerator;
 import me.leopold95.funutils.core.oregeneration.OreGeneration;
 import me.leopold95.funutils.listeners.BlockBreakListener;
 import me.leopold95.funutils.listeners.BlockPlaceListener;
@@ -31,12 +30,6 @@ public final class FunUtils extends JavaPlugin {
 
         crafts = new Crafts(this);
         oresGeneration = new OreGeneration(this);
-    }
-
-    @Nullable
-    @Override
-    public ChunkGenerator getDefaultWorldGenerator(@NotNull String worldName, @Nullable String id) {
-        return new CustomChunkGenerator();
     }
 
     public OreGeneration getOresGeneration(){

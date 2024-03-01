@@ -9,12 +9,6 @@ import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.*;
 
-//Алгоритм
-//в каком-то чанке выбрать первую рандомную точку с шаном
-//от этой точки начать генерировать жилу(если в жиле 1 блок, сгенерировать его в точке начала)
-
-
-
 /**
  * Класс-ядро для работы с генерацией чанков
  */
@@ -32,8 +26,10 @@ public class OreGeneration {
 		this.plugin = plugin;
 		//прегенерируем список ближайших блоков, чтобы избежать ненужных тысяч аллокаций памяти
 		blockRelatives = getBlockRelativeSteps();
+		//предгенериуем секцию с конфигами для руд
 		oresConfigSection = Config.getSection("ore-generation.ores");
-		canReplaceAir = Config.getBoolean("ore-generation.replace-air");
+		//можно ли заменять воздух
+		canReplaceAir = !Config.getBoolean("ore-generation.replace-air");
 
 		//пре инициализация парметров конфига, для увеличения произврдительности
 		//путем заранее аллоцированого списка руд
@@ -41,9 +37,13 @@ public class OreGeneration {
 		for (String key: oresConfigSection.getKeys(false))
 			preLoadedCfgsList.add(Config.getSection("ore-generation.ores."+key));
 
+		//список заблокированных миров
 		bannedWorlds = Config.getStringList("ore-generation.banned-worlds");
 	}
 
+	/**
+	 * Пытается заспавнить жилы с рудами в чанке
+	 */
 	public void tryGenerateVien(Chunk chunk){
 		//проверка на заблокированные миры
 		if(bannedWorlds.contains(chunk.getWorld().getName()))
@@ -61,61 +61,32 @@ public class OreGeneration {
 
 			//если шансы прокнули - значит руда будет 100% сгенерирована Х раз в конкретном чанке
 
-			//рандомное положение жилы в чанке
+			//сколько раз будет заспавнена жила на рандомных координатах
+			int howManyTimesSpawnVien = getFixedOrRandomCfgValue(oreCfg, "cycle-random");
+			int replaceAmount; //количество блоков руды в жиле
 			int startX;
 			int startZ;
 			int startY;
 
-			int howManyTimesSpawnVien = getFixedOrRandomCfgValue(oreCfg, "cycle-random");
-			int replaceAmount;
-
 			for (int i = 1; i <= howManyTimesSpawnVien; i++){
-				startX = Utils.fastRandom(0, 15); // 0-15 в конкретном чанке
-				startZ = Utils.fastRandom(0, 15); // 0-15 в конкретном чанке
+				//по сколько руда може выйти за границы чанка
+				//и максимум 27 блоков руды (3-3-3)
+				//огганичим радиус появления руды в чанке
+
+				//рандомное положение жилы в чанке
+				startX = Utils.fastRandom(3, 12); // 0-15 в конкретном чанке
+				startZ = Utils.fastRandom(3, 12); // 0-15 в конкретном чанке
 				startY = getFixedOrRandomCfgValue(oreCfg, "height");
 				replaceAmount = getFixedOrRandomCfgValue(oreCfg, "amount");
 				spawnVien(new Vector3(startX, startY, startZ), chunk, replaceAmount, Material.getMaterial(oreCfg.getString("material")));
 			}
 
 		}
-
-		//для каждой руды в каждом созданном чанке......
-//		for (String key: oresConfigSection.getKeys(false)){
-//			//натсройки с текущей рудой
-//			ConfigurationSection currentCfg = Config.getSection("ore-generation.ores."+key);
-//
-//			//если руда выключена - скип
-//			if(!currentCfg.getBoolean("enabled"))
-//				continue;
-//
-//			int spawnChance = getValue(currentCfg, "chance");
-//
-//			//System.out.println(chanceFrom +" "+ chanceTo);
-//
-//			//сразу проверяем, будем ли генерировать жилу в єтом чанке
-//			if(!Utils.doWithChance(spawnChance))
-//				return;
-//
-//			//System.out.println(spawnChance);
-//
-//			//рандомное положение жилы в чанке
-//			int startX;
-//			int startZ;
-//			int startY;
-//
-//			int howManyTimesSpawnVien = getValue(currentCfg, "cycle-random");
-//			int replaceAmount;
-//
-//			for (int i = 1; i <= howManyTimesSpawnVien; i++){
-//				startX = Utils.fastRandom(0, 15); // 0-15 в конкретном чанке
-//				startZ = Utils.fastRandom(0, 15); // 0-15 в конкретном чанке
-//				startY = getValue(currentCfg, "height");
-//				replaceAmount = getValue(currentCfg, "amount");
-//				spawnVien(new Vector3(startX, startY, startZ), chunk, replaceAmount, Material.getMaterial(currentCfg.getString("material")));
-//			}
-//		}
 	}
 
+	/**
+	 * Спавн жилы в чанке на локальных координатах чанка
+	 */
 	private void spawnVien(Vector3 startPos, Chunk chunk, int blocksIntoVien, Material material){
 		Block startBlock = chunk.getBlock(startPos.x, startPos.y, startPos.z);
 
@@ -126,8 +97,8 @@ public class OreGeneration {
 			if(replaced == blocksIntoVien)
 				break;
 
-//			if(canReplaceAir && startBlock.getRelative(relative.x, relative.y, relative.z).getType() != replaceMaterial)
-//				continue;
+			if(canReplaceAir && startBlock.getRelative(relative.x, relative.y, relative.z).getType() != replaceMaterial)
+				continue;
 
 			startBlock.getRelative(relative.x, relative.y, relative.z).setType(material);
 			replaced++;
@@ -136,31 +107,9 @@ public class OreGeneration {
 		//System.out.println(startPos);
 	}
 
-//	public List<SimpleBlockInfo> getBlocksToReplace(Vector3 startPos, int blocksIntoVien, Material material){
-//		List<SimpleBlockInfo> blocksToReplace = new ArrayList<>();
-//
-//		//Block startBlock = chunk.getBlock(startPos.x, startPos.y, startPos.z);
-//
-//		int replaced = 0;
-//
-//		//спавн жилы с ресурсом
-//		for (Vector3 relative: blockRelatives){
-//			if(replaced == blocksIntoVien)
-//				break;
-//
-////			if(canReplaceAir && startBlock.getRelative(relative.x, relative.y, relative.z).getType() != replaceMaterial)
-////				continue;
-//
-//			blocksToReplace.add(new SimpleBlockInfo(new Vector3(relative.x, relative.y, relative.z), material));
-//
-//			//startBlock.getRelative(relative.x, relative.y, relative.z).setType(material);
-//			replaced++;
-//		}
-//
-//
-//		return blocksToReplace;
-//	}
-
+	/**
+	 * Выдает рандомный или фиксированный int из кфгсекции и парметра
+	 */
 	private int getFixedOrRandomCfgValue(ConfigurationSection section, String str) {
 		String value = section.getString(str);
 		String[] parts = value.split("~");
@@ -172,22 +121,6 @@ public class OreGeneration {
 		}
 		return section.getInt(str);
 	}
-
-//	private int getValue(ConfigurationSection section, String str){
-//		int from;
-//		int to;
-//		try { //ваначле пробуем рандом, еслии ошибка - значит фиксировано
-//			String[] heights = section.getString(str).split("~");
-//			from = Integer.parseInt(heights[0]);
-//			to = Integer.parseInt(heights[1]);
-//
-//			//рандомная высота для генерации жилы
-//			return Utils.randomInt(from, to);
-//		}
-//		catch (Exception e){
-//			return section.getInt(str);
-//		}
-//	}
 
 	/**
 	 * Список ближайших к блоку сторон, на котрых будут создаваться руды
@@ -220,9 +153,5 @@ public class OreGeneration {
 		blockRelatives.add(new Vector3(-1, -1, -1));
 
 		return blockRelatives;
-	}
-
-	public void generateBlock(){
-
 	}
 }
