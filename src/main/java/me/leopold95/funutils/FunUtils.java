@@ -7,10 +7,7 @@ import me.leopold95.funutils.listeners.BlockPlaceListener;
 import me.leopold95.funutils.listeners.ChunkGeneratedListener;
 import me.leopold95.funutils.listeners.EntityDeathListener;
 import me.leopold95.funutils.utils.Config;
-import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public final class FunUtils extends JavaPlugin {
     public static FunUtils plugin;
