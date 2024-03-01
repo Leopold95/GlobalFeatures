@@ -1,13 +1,17 @@
 package me.leopold95.funutils;
 
 import me.leopold95.funutils.core.Crafts;
+import me.leopold95.funutils.core.oregeneration.CustomChunkGenerator;
 import me.leopold95.funutils.core.oregeneration.OreGeneration;
 import me.leopold95.funutils.listeners.BlockBreakListener;
 import me.leopold95.funutils.listeners.BlockPlaceListener;
 import me.leopold95.funutils.listeners.ChunkGeneratedListener;
 import me.leopold95.funutils.listeners.EntityDeathListener;
 import me.leopold95.funutils.utils.Config;
+import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public final class FunUtils extends JavaPlugin {
     public static FunUtils plugin;
@@ -27,6 +31,12 @@ public final class FunUtils extends JavaPlugin {
 
         crafts = new Crafts(this);
         oresGeneration = new OreGeneration(this);
+    }
+
+    @Nullable
+    @Override
+    public ChunkGenerator getDefaultWorldGenerator(@NotNull String worldName, @Nullable String id) {
+        return new CustomChunkGenerator();
     }
 
     public OreGeneration getOresGeneration(){

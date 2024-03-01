@@ -1,4 +1,5 @@
 ore-generation:
+  replace-air: true
   banned-worlds:
     - world_nether
     - world_the_end
