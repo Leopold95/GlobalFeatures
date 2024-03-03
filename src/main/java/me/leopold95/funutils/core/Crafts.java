@@ -6,15 +6,22 @@ import net.minecraft.server.v1_16_R3.NBTTagCompound;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.List;
 
 
 public class Crafts {
 	private FunUtils plugin;
+	private List<Material> planks;
 
 	public Crafts(FunUtils plugin){
 		this.plugin = plugin;
+		planks = List.of(Material.ACACIA_PLANKS, Material.BIRCH_PLANKS, Material.CRIMSON_PLANKS, Material.JUNGLE_PLANKS,
+				Material.OAK_PLANKS, Material.DARK_OAK_PLANKS, Material.SPRUCE_PLANKS, Material.WARPED_PLANKS);
+
 		initShapedRecipes();
 	}
 
@@ -31,6 +38,7 @@ public class Crafts {
 		plugin.getServer().addRecipe(resChorusFruit()); //фрукт хроуса
 		plugin.getServer().addRecipe(resTotemOfUndying()); //тотем бессмертия
 		plugin.getServer().addRecipe(resGlowStone()); //свето пыль
+		plugin.getServer().addRecipe(resBookShelf()); //10 книжных полок из любого дерева
 }
 
 	//Дизориентация
@@ -218,6 +226,20 @@ public class Crafts {
 		recipe.setIngredient('C', Material.BLAZE_POWDER);
 		recipe.setIngredient('A', Material.GOLD_INGOT);
 		recipe.setIngredient('B', Material.NETHERITE_INGOT);
+
+		return recipe;
+	}
+
+	//10 книжных полок вместо вместо одной
+	private ShapedRecipe resBookShelf(){
+		ShapedRecipe recipe = new ShapedRecipe(new NamespacedKey(plugin, "bookshelf-custom-recipe"),
+				new ItemStack(Material.BOOKSHELF, 10));
+		recipe.shape(
+				"AAA",
+				"BBB",
+				"AAA");
+		recipe.setIngredient('A', new RecipeChoice.MaterialChoice(planks));
+		recipe.setIngredient('B', Material.BOOK);
 
 		return recipe;
 	}
