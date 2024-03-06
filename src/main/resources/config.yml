@@ -39,3 +39,9 @@ ore-generation:
       amount: 1~2
       height: 3~20
       material: ANCIENT_DEBRIS
+
+  block-replace-enabled: true #Включена ли замена блоков
+  banned-blocks: #список блоков, котрые нужно заменить
+    - AIR
+  replace-block: STONE #Материал, на котрый заменятся блокии
+  global-ban-height: 120~130 #глобаная высота поиска блоков для замены

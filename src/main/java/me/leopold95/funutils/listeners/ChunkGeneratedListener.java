@@ -14,14 +14,15 @@ public class ChunkGeneratedListener implements Listener {
 	// => работаем с уже ранее сгенерированным чанком
 	@EventHandler(priority = EventPriority.HIGHEST)
 	private void onChunkGenerated(ChunkPopulateEvent event){
+		//пробуем заменить неокотрые блоки в чанке
+		FunUtils.plugin.getOresGeneration().tryReplaceBlocks(event.getChunk());
+
 		//пробуем создать руды в только что сгенерированном чанке
 		FunUtils.plugin.getOresGeneration().tryGenerateVien(event.getChunk());
 	}
 
-	@EventHandler
-	private void onWorldInit(WorldInitEvent event){
-		event.getWorld().getPopulators().add(new CustomChunkGenerator());
-	}
-
-
+//	@EventHandler
+//	private void onWorldInit(WorldInitEvent event){
+//		event.getWorld().getPopulators().add(new CustomChunkGenerator());
+//	}
 }
