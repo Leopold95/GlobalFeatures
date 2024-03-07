@@ -22,6 +22,7 @@
           </map>
         </userChosenTypes>
         <autoDetectTypes>
+          <platformType>BUKKIT</platformType>
           <platformType>MCP</platformType>
         </autoDetectTypes>
         <projectReimportVersion>1</projectReimportVersion>
@@ -39,18 +40,6 @@
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/../../libs/craftbukkit-1.16.5.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <ANNOTATIONS>
-          <root url="jar://$APPLICATION_PLUGINS_DIR$/Minecraft Development/lib/resources/externalAnnotations.jar!/" />
-        </ANNOTATIONS>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../libs/сraftbukkit-1.16.5-net.minecraft.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

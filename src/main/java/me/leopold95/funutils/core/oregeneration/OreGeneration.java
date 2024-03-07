@@ -90,10 +90,6 @@ public class OreGeneration {
 
 			//сколько раз будет заспавнена жила на рандомных координатах
 			int howManyTimesSpawnVien = getFixedOrRandomCfgValue(oreCfg, "cycle-random");
-			int replaceAmount; //количество блоков руды в жиле
-			int startX;
-			int startZ;
-			int startY;
 
 			//материал проще иницилизировать заранее, ведь
 			//1 - так мы не будем делать это каждый раз в цикло
@@ -106,10 +102,10 @@ public class OreGeneration {
 				//огганичим радиус появления руды в чанке
 
 				//рандомное положение жилы в чанке
-				startX = Utils.fastRandom(3, 12); // 0-15 в конкретном чанке
-				startZ = Utils.fastRandom(3, 12); // 0-15 в конкретном чанке
-				startY = getFixedOrRandomCfgValue(oreCfg, "height");
-				replaceAmount = getFixedOrRandomCfgValue(oreCfg, "amount");
+				int startX = Utils.fastRandom(3, 12); // 0-15 в конкретном чанке
+				int startZ = Utils.fastRandom(3, 12); // 0-15 в конкретном чанке
+				int startY = getFixedOrRandomCfgValue(oreCfg, "height");
+				int replaceAmount = getFixedOrRandomCfgValue(oreCfg, "amount"); //количество блоков руды в жиле
 				spawnVien(chunk, replaceAmount, oreType, startX, startY, startZ);
 			}
 		}
@@ -144,7 +140,6 @@ public class OreGeneration {
 	 */
 	private void spawnVien(Chunk chunk, int blocksIntoVien, Material material, int startX, int startY, int startZ){
 		Block startBlock = chunk.getBlock(startX, startY, startZ);
-
 		int replaced = 0;
 
 		//спавн жилы с ресурсом
