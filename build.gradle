@@ -21,8 +21,8 @@ repositories {
 
 dependencies {
     compileOnly "com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT"
-    //implementation files('libs/craftbukkit_1_16_5.jar')
     implementation files('libs/craftbukkit-1.16.5.jar')
+    implementation files('libs/сraftbukkit-1.16.5-net.minecraft.jar')
 }
 
 def targetJavaVersion = 17
