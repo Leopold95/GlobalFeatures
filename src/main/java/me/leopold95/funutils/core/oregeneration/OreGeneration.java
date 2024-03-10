@@ -128,8 +128,10 @@ public class OreGeneration {
 			for (int y = banHeightFrom; y < banHeightTo; y++){
 				for(int z = 1; z < 15; z++){
 					Block currentBlock = chunk.getBlock(x, y, z);
-					if(bannedBlocks.contains(currentBlock.getType()))
+					if(bannedBlocks.contains(currentBlock.getType())){
 						currentBlock.setType(banReplaceMat);
+						//System.out.println(currentBlock.getType() + " removed");
+					}
 				}
 			}
 		}
