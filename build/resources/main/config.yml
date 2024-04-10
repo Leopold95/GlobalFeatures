@@ -1,0 +1,47 @@
+ore-generation:
+  replace-air: true
+  banned-worlds:
+    - world_nether
+    - world_the_end
+  ores:
+    1:
+      enabled: true
+      cycle-random: 5
+      chance: 60
+      amount: 4~8
+      height: 4~50
+      material: IRON_ORE
+    2:
+      enabled: true
+      cycle-random: 5~6
+      chance: 60
+      amount: 3~8
+      height: 4~30
+      material: GOLD_ORE
+    3:
+      enabled: true
+      cycle-random: 3
+      chance: 40
+      amount: 3~10
+      height: 3~30
+      material: LAPIS_ORE
+    4:
+      enabled: true
+      cycle-random: 4
+      chance: 20
+      amount: 3~8
+      height: 3~20
+      material: DIAMOND_ORE
+    5:
+      enabled: true
+      cycle-random: 1~10
+      chance: 15
+      amount: 1~2
+      height: 3~20
+      material: ANCIENT_DEBRIS
+
+  block-replace-enabled: true #Включена ли замена блоков
+  banned-blocks: #список блоков, котрые нужно заменить
+    - AIR
+  replace-block: STONE #Материал, на котрый заменятся блокии
+  global-ban-height: 120~130 #глобаная высота поиска блоков для замены
