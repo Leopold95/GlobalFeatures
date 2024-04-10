@@ -23,7 +23,6 @@
         </userChosenTypes>
         <autoDetectTypes>
           <platformType>BUKKIT</platformType>
-          <platformType>MCP</platformType>
         </autoDetectTypes>
         <projectReimportVersion>1</projectReimportVersion>
       </configuration>

@@ -1,7 +1,8 @@
-name: FunUtils
+name: GlobalFeatures
 version: '${version}'
 main: me.leopold95.funutils.FunUtils
 api-version: '1.16'
 authors:
   - Leopold95
 load: STARTUP
+
